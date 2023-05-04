@@ -90,9 +90,7 @@ def nested_monte_carlo(St, J):
         simulated nested paths
     '''
     ran = generate_random_numbers(J)
-    paths = St * np.exp((r - sigma ** 2 / 2) * dt
-                       + sigma * ran * math.sqrt(dt))
-    return paths
+    return St * np.exp((r - sigma**2 / 2) * dt + sigma * ran * math.sqrt(dt))
 
 #
 # Valuation

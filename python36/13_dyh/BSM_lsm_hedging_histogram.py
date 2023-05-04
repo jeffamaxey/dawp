@@ -33,14 +33,13 @@ def BSM_dynamic_hedge_mcs(M=50, I=10000):
         run += 1
         delta = np.zeros(M + 1, dtype=np.float)  # vector for deltas
         for t in range(0, M, 1):
-            if ex[t - 1, p] == 0:  # if option is alive
-                St = S[t, p]  # relevant index level
-                diff = (np.polyval(rg[t, :], St + ds) -
-                        np.polyval(rg[t, :], St))
-                # numerator of difference quotient
-                delta[t] = diff / ds  # delta as difference quotient
-            else:
+            if ex[t - 1, p] != 0:
                 break
+            St = S[t, p]  # relevant index level
+            diff = (np.polyval(rg[t, :], St + ds) -
+                    np.polyval(rg[t, :], St))
+            # numerator of difference quotient
+            delta[t] = diff / ds  # delta as difference quotient
         delta[0] = del_0
         po = np.zeros(t, dtype=np.float)  # vector for portfolio values
         vt = np.zeros(t, dtype=np.float)  # vector for option values

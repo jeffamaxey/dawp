@@ -104,18 +104,17 @@ def BSM_hedge_run(p=0):
     print("-----------------------------")
     print(" %7s | %7s | %7s " % ('step', 'S_t', 'Delta'))
     for t in range(1, M, 1):
-        if ex[t, p] == 0:  # if option is alive
-            St = S[t, p]  # relevant index level
-            diff = (np.polyval(rg[t], St + ds) -
-                    np.polyval(rg[t], St))
-            # numerator of difference quotient
-            delt[t] = diff / ds  # delta as difference quotient
-            print(" %7d | %7.2f | %7.2f" % (t, St, delt[t]))
-            if (S[t, p] - S[t - 1, p]) * (delt[t] - delt[t - 1]) < 0:
-                print("          wrong")
-        else:
+        if ex[t, p] != 0:
             break
 
+        St = S[t, p]  # relevant index level
+        diff = (np.polyval(rg[t], St + ds) -
+                np.polyval(rg[t], St))
+        # numerator of difference quotient
+        delt[t] = diff / ds  # delta as difference quotient
+        print(" %7d | %7.2f | %7.2f" % (t, St, delt[t]))
+        if (S[t, p] - S[t - 1, p]) * (delt[t] - delt[t - 1]) < 0:
+            print("          wrong")
     delt[0] = del_0
     print()
     print("DYNAMIC HEDGING OF AMERICAN PUT (BSM)")
